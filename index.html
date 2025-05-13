@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מנוע החיפוש שלי (גוגל)</title>
+    <title>מנוע החיפוש שלי (גוגל) עם רקע</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,17 +11,24 @@
             justify-content: center; /* מרכוז אופקי של כל התוכן */
             align-items: center; /* מרכוז אנכי של כל התוכן */
             min-height: 100vh;
-            background-color: #f4f4f4;
+            background-image: url('https://i.ibb.co/BKyfkcpn/image.jpg');
+            background-size: cover; /* גורם לתמונה לכסות את כל הרקע */
+            background-repeat: no-repeat; /* מונע חזרה של התמונה */
+            background-attachment: fixed; /* גורם לתמונה להישאר קבועה בזמן גלילה */
+            background-position: center center; /* ממקם את התמונה במרכז */
             direction: rtl; /* כיוון מימין לשמאל */
             margin: 0; /* הסרת שוליים ברירת מחדל */
+            color: white; /* צבע טקסט לבן לקריאות טובה יותר על רקע כהה */
         }
 
         .search-container {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.8); /* רקע לבן שקוף מעט לקונטיינר */
             padding: 40px; /* הגדלת הריווח הפנימי */
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center; /* מרכוז הטקסט בתוך הקונטיינר */
+            max-width: 80%; /* רוחב מקסימלי לקונטיינר */
+            width: 600px; /* רוחב קבוע לקונטיינר */
         }
 
         h1 {
@@ -32,7 +39,6 @@
         #search-form {
             display: flex;
             gap: 15px; /* הגדלת המרווח בין תיבת הטקסט לכפתור */
-            max-width: 700px; /* הגדלת הרוחב המקסימלי של הטופס */
             width: 100%; /* הטופס יתפוס את כל הרוחב האפשרי בתוך הקונטיינר */
             margin: 0 auto; /* מרכוז אופקי של הטופס */
         }
