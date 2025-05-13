@@ -3,42 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>רקע עם תמונה</title>
+    <title>מנוע החיפוש שלי (גוגל)</title>
     <style>
         body {
-            background-image: url('https://i.ibb.co/BKyfkcpn/image.jpg');
-            background-size: cover; /* גורם לתמונה לכסות את כל הרקע */
-            background-repeat: no-repeat; /* מונע חזרה של התמונה */
-            background-attachment: fixed; /* גורם לתמונה להישאר קבועה בזמן גלילה */
-            background-position: center center; /* ממקם את התמונה במרכז */
-            margin: 0; /* הסרת שוליים ברירת מחדל של הדפדפן */
-            color: white; /* מגדיר צבע טקסט לבן כדי שיהיה קריא על רקע כהה */
-            font-family: Arial, sans-serif; /* גופן בסיסי */
-            text-align: center; /* מרכוז הטקסט לדוגמה */
-            padding: 50px; /* הוספת ריווח פנימי */
-            box-sizing: border-box; /* כולל ריפוד ושוליים בחישוב הרוחב והגובה */
-            min-height: 100vh; /* מבטיח שהרקע מכסה לפחות את גובה המסך */
+            font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            justify-content: center; /* מרכוז אנכי של התוכן */
-            align-items: center; /* מרכוז אופקי של התוכן */
+            justify-content: center; /* מרכוז אופקי של כל התוכן */
+            align-items: center; /* מרכוז אנכי של כל התוכן */
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            direction: rtl; /* כיוון מימין לשמאל */
+            margin: 0; /* הסרת שוליים ברירת מחדל */
+        }
+
+        .search-container {
+            background-color: #fff;
+            padding: 40px; /* הגדלת הריווח הפנימי */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center; /* מרכוז הטקסט בתוך הקונטיינר */
         }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* הוספת צל לטקסט */
+            color: #333;
+            margin-bottom: 30px; /* הגדלת המרווח מתחת לכותרת */
         }
 
-        p {
-            font-size: 1.2em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* הוספת צל לטקסט */
+        #search-form {
+            display: flex;
+            gap: 15px; /* הגדלת המרווח בין תיבת הטקסט לכפתור */
+            max-width: 700px; /* הגדלת הרוחב המקסימלי של הטופס */
+            width: 100%; /* הטופס יתפוס את כל הרוחב האפשרי בתוך הקונטיינר */
+            margin: 0 auto; /* מרכוז אופקי של הטופס */
+        }
+
+        #search-input {
+            flex-grow: 2; /* תיבת הטקסט תתפוס יותר מקום */
+            padding: 15px; /* הגדלת הריווח הפנימי של תיבת הטקסט */
+            border: 1px solid #ccc;
+            border-radius: 6px; /* עיגול קצוות מעט יותר */
+            font-size: 18px; /* הגדלת גודל הגופן בתיבת הטקסט */
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 25px; /* הגדלת הריווח הפנימי של הכפתור */
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button svg {
+            fill: white;
+            width: 20px; /* הגדלת אייקון החיפוש */
+            height: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>התוכן של הדף שלי</h1>
-    <p>זהו טקסט שמוצג על רקע התמונה.</p>
-    <p>אתה יכול להוסיף כאן עוד תוכן.</p>
+    <div class="search-container">
+        <h1>חפש בגוגל</h1>
+        <form action="https://www.google.com/search" method="get" id="search-form">
+            <input type="text" name="q" id="search-input" placeholder="הקלד את מילות החיפוש כאן...">
+            <button type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.472 6.472 0 0 0 16 9.5A6.5 6.5 0 0 0 9.5 3A6.5 6.5 0 0 0 3 9.5A6.5 6.5 0 0 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 5l2-2l-5-5zm-6 0A4.5 4.5 0 0 1 5 9.5A4.5 4.5 0 0 1 9.5 5A4.5 4.5 0 0 1 14 9.5A4.5 4.5 0 0 1 9.5 14z"/>
+                </svg>
+                <span>חפש</span>
+            </button>
+        </form>
+    </div>
 </body>
 </html>
