@@ -86,15 +86,15 @@
             width: 40px;
             height: 40px;
             margin-bottom: 5px;
-            background-color: #e0e0e0; /* צבע ברירת מחדל לאייקון */
-            border-radius: 50%; /* אם רוצים אייקון עגול */
-            /* כאן תוכל להוסיף תמונות רקע או סגנונות אחרים לאייקונים */
+            background-color: transparent; /* הסר את הרקע האפור ברירת המחדל */
+            border-radius: 50%; /* אם הלוגו שלך עגול */
+            background-size: contain; /* התאמת גודל התמונה בתוך הדיב */
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
-        .app-icon span {
-            font-size: 0.8em;
-            text-align: center;
-            word-break: break-word; /* שבירת מילים ארוכות */
+        .logo-canva div {
+            background-image: url('https://static.canva.com/web/brand/canva-logo-3.svg'); /* לוגו של Canva */
         }
 
         .search-container {
@@ -168,7 +168,7 @@
             </svg>
         </button>
         <div class="apps-dropdown">
-            <a href="https://canva.com" class="app-icon">
+            <a href="https://canva.com" class="app-icon logo-canva">
                 <div></div>
                 <span>Canva</span>
             </a>
