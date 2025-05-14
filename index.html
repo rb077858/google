@@ -1,28 +1,286 @@
 <!DOCTYPE html>
-<html>
+<html lang="he">
 <head>
-  <title>מנוע חיפוש</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center; /* מרכוז אופקי של כל התוכן */
+            align-items: center; /* מרכוז אנכי של כל התוכן */
+            min-height: 100vh;
+            background-image: url('https://i.ibb.co/vx73HJ9x/Search-Express.jpg');
+            background-size: cover; /* גורם לתמונה לכסות את כל הרקע */
+            background-repeat: no-repeat; /* מונע חזרה של התמונה */
+            background-attachment: fixed; /* גורם לתמונה להישאר קבועה בזמן גלילה */
+            background-position: center center; /* ממקם את התמונה במרכז */
+            direction: rtl; /* כיוון מימין לשמאל */
+            margin: 0; /* הסרת שוליים ברירת מחדל */
+            color: white; /* צבע טקסט לבן לקריאות טובה יותר על רקע כהה */
+        }
+
+        .top-link-container {
+            position: absolute;
+            top: 10px; /* מרחק מהקצה העליון */
+            left: 10px; /* מרחק מהקצה השמאלי */
+            z-index: 20; /* ודא שהקישור מעל אלמנטים אחרים */
+        }
+
+        .top-link {
+            color: white; /* או כל צבע אחר שמתאים לרקע שלך */
+            text-decoration: none; /* הסרת קו תחתון */
+            padding: 8px 12px; /* ריווח פנימי לקישור */
+            border-radius: 4px; /* פינות מעוגלות (אופציונלי) */
+            background-color: rgba(0, 0, 0, 0.3); /* רקע שקוף קלות (אופציונלי) */
+        }
+
+        .top-link:hover {
+            background-color: rgba(0, 0, 0, 0.5); /* שינוי רקע במעבר עכבר (אופציונלי) */
+        }
+
+        .apps-menu {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .apps-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%; /* כדי שיהיה עגול */
+        }
+
+        .apps-button:hover {
+            background-color: rgba(0, 0, 0, 0.1); /* רקע קל במעבר עכבר */
+        }
+
+        .apps-button svg {
+            fill: #5f6368; /* צבע האייקון */
+            width: 24px;
+            height: 24px;
+        }
+
+        .apps-dropdown {
+            position: absolute;
+            top: 100%; /* ממוקם מתחת לכפתור */
+            right: 0; /* מיושר לימין הכפתור */
+            background-color: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: none; /* מוסתר כברירת מחדל */
+            z-index: 10; /* כדי שיהיה מעל תוכן אחר */
+            grid-template-columns: repeat(3, 72px); /* פריסה של 3 עמודות */
+            gap: 8px;
+        }
+
+        .apps-dropdown.open {
+            display: grid; /* הופך לגלוי כאשר מוסיפים את הקלאס 'open' */
+        }
+
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #202124;
+            padding: 8px;
+            border-radius: 8px;
+            width: 64px;
+            height: 64px;
+            box-sizing: border-box;
+        }
+
+        .app-icon:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .app-icon div {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 5px;
+            background-color: transparent; /* הסר את הרקע האפור ברירת המחדל */
+            border-radius: 50%; /* אם הלוגו שלך עגול */
+            background-size: contain; /* התאמת גודל התמונה בתוך הדיב */
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .logo-canva div {
+            background-image: url('https://i.ibb.co/TBPn7jjH/image.png'); /* לוגו של Canva */
+        }
+
+        .logo-gmail div {
+            background-image: url('https://i.ibb.co/5WHRJXKq/image.png'); /* לוגו של Gmail */
+        }
+
+        .logo-gemini div {
+            background-image: url('https://i.ibb.co/23TGwrFF/image.png'); /* לוגו של Gemini */
+        }
+
+        .search-container {
+            background-color: rgba(255, 255, 255, 0.8); /* רקע לבן שקוף מעט לקונטיינר */
+            padding: 40px; /* הגדלת הריווח הפנימי */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center; /* מרכוז הטקסט בתוך הקונטיינר */
+            max-width: 80%; /* רוחב מקסימלי לקונטיינר */
+            width: 600px; /* רוחב קבוע לקונטיינר */
+            z-index: 1; /* כדי שהקונטיינר יהיה מתחת לתפריט האפליקציות אם הוא נפתח */
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px; /* הגדלת המרווח מתחת לכותרת */
+        }
+
+        #search-form {
+            display: flex;
+            gap: 15px; /* הגדלת המרווח בין תיבת הטקסט לכפתור */
+            width: 100%; /* הטופס יתפוס את כל הרוחב האפשרי בתוך הקונטיינר */
+            margin: 0 auto; /* מרכוז אופקי של הטופס */
+        }
+
+        #search-input {
+            flex-grow: 2; /* תיבת הטקסט תתפוס יותר מקום */
+            padding: 15px; /* הגדלת הריווח הפנימי של תיבת הטקסט */
+            border: 1px solid #ccc;
+            border-radius: 6px; /* עיגול קצוות מעט יותר */
+            font-size: 18px; /* הגדלת גודל הגופן בתיבת הטקסט */
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 25px; /* הגדלת הריווח הפנימי של הכפתור */
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button svg {
+            fill: white;
+            width: 20px; /* הגדלת אייקון החיפוש */
+            height: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  <input type="text" id="searchInput" placeholder="חיפוש...">
-  <button onclick="performSearch()">חפש</button>
+    <div class="top-link-container">
+        <a href="https://images.google.com/" class="top-link">Google Images</a>
+    </div>
 
-  <script>
-    function performSearch() {
-      var searchText = document.getElementById("searchInput").value;
-      // כאן תוסיף את הקוד לשליחת החיפוש, לדוגמה, הפניה לדף אחר
-      // window.location.href = "/search?q=" + searchText;
-      alert("מחפש: " + searchText); // להדגמה בלבד
-    }
+    <div class="apps-menu">
+        <button class="apps-button">
+            <svg viewBox="0 0 24 24">
+                <circle cx="4" cy="4" r="2"></circle>
+                <circle cx="12" cy="4" r="2"></circle>
+                <circle cx="20" cy="4" r="2"></circle>
+                <circle cx="4" cy="12" r="2"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+                <circle cx="20" cy="12" r="2"></circle>
+                <circle cx="4" cy="20" r="2"></circle>
+                <circle cx="12" cy="20" r="2"></circle>
+                <circle cx="20" cy="20" r="2"></circle>
+            </svg>
+        </button>
+        <div class="apps-dropdown">
+            <a href="https://canva.com" class="app-icon logo-canva">
+                <div></div>
+                <span>Canva</span>
+            </a>
+            <a href="https://mail.google.com" class="app-icon logo-gmail">
+                <div></div>
+                <span>Gmail</span>
+            </a>
+            <a href="https://gemini.google.com" class="app-icon logo-gemini">
+                <div></div>
+                <span>Gemini</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 4</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 5</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 6</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 7</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 8</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 9</span>
+            </a>
+        </div>
+    </div>
 
-    // קוד JavaScript כדי לקבל את פרמטר 'q' מה-URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const q = urlParams.get('q');
+    <div class="search-container">
+        <h1>Search Express</h1>
+        <form action="https://www.google.com/search" method="get" id="search-form">
+            <input type="text" name="q" id="search-input" placeholder="הקלד את מילות החיפוש כאן...">
+            <button type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.472 6.472 0 0 0 16 9.5A6.5 6.5 0 0 0 9.5 3A6.5 6.5 0 0 0 3 9.5A6.5 6.5 0 0 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 5l2-2l-5-5zm-6 0A4.5 4.5 0 0 1 5 9.5A4.5 4.5 0 0 1 9.5 5A4.5 4.5 0 0 1 14 9.5A4.5 4.5 0 0 1 9.5 14z"></path>
+                </svg>
+                <span>חפש</span>
+            </button>
+        </form>
+    </div>
 
-    // אם קיים פרמטר 'q', מלא את תיבת הטקסט בערך שלו
-    if (q) {
-      document.getElementById('searchInput').value = q;
-    }
-  </script>
+    <script>
+        const appsButton = document.querySelector('.apps-button');
+        const appsDropdown = document.querySelector('.apps-dropdown');
+        const appsMenu = document.querySelector('.apps-menu'); // תפסנו את הקונטיינר הראשי
+        const searchInput = document.getElementById('search-input'); // תופסים את תיבת הטקסט של החיפוש
+
+        // קוד JavaScript כדי לקבל את פרמטר 'q' מה-URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const q = urlParams.get('q');
+
+        // אם קיים פרמטר 'q', מלא את תיבת הטקסט בערך שלו
+        if (q) {
+            searchInput.value = q;
+        }
+
+        // ברגע שהדף נטען, ממרכזים את הפוקוס על תיבת הטקסט
+        window.onload = function() {
+            searchInput.focus();
+        };
+
+        appsButton.addEventListener('click', () => {
+            appsDropdown.classList.toggle('open');
+        });
+
+        // סגירת התפריט כאשר לוחצים מחוץ לו
+        document.addEventListener('click', (event) => {
+            if (!appsMenu.contains(event.target) && appsDropdown.classList.contains('open')) {
+                appsDropdown.classList.remove('open');
+            }
+        });
+    </script>
 </body>
 </html>
