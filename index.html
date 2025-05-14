@@ -21,6 +21,82 @@
             color: white; /* צבע טקסט לבן לקריאות טובה יותר על רקע כהה */
         }
 
+        .apps-menu {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .apps-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%; /* כדי שיהיה עגול */
+        }
+
+        .apps-button:hover {
+            background-color: rgba(0, 0, 0, 0.1); /* רקע קל במעבר עכבר */
+        }
+
+        .apps-button svg {
+            fill: #5f6368; /* צבע האייקון */
+            width: 24px;
+            height: 24px;
+        }
+
+        .apps-dropdown {
+            position: absolute;
+            top: 100%; /* ממוקם מתחת לכפתור */
+            right: 0; /* מיושר לימין הכפתור */
+            background-color: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: none; /* מוסתר כברירת מחדל */
+            z-index: 10; /* כדי שיהיה מעל תוכן אחר */
+            grid-template-columns: repeat(3, 72px); /* פריסה של 3 עמודות */
+            gap: 8px;
+        }
+
+        .apps-dropdown.open {
+            display: grid; /* הופך לגלוי כאשר מוסיפים את הקלאס 'open' */
+        }
+
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #202124;
+            padding: 8px;
+            border-radius: 8px;
+            width: 64px;
+            height: 64px;
+            box-sizing: border-box;
+        }
+
+        .app-icon:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .app-icon div {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 5px;
+            background-color: #e0e0e0; /* צבע ברירת מחדל לאייקון */
+            border-radius: 50%; /* אם רוצים אייקון עגול */
+            /* כאן תוכל להוסיף תמונות רקע או סגנונות אחרים לאייקונים */
+        }
+
+        .app-icon span {
+            font-size: 0.8em;
+            text-align: center;
+            word-break: break-word; /* שבירת מילים ארוכות */
+        }
+
         .search-container {
             background-color: rgba(255, 255, 255, 0.8); /* רקע לבן שקוף מעט לקונטיינר */
             padding: 40px; /* הגדלת הריווח הפנימי */
@@ -29,6 +105,7 @@
             text-align: center; /* מרכוז הטקסט בתוך הקונטיינר */
             max-width: 80%; /* רוחב מקסימלי לקונטיינר */
             width: 600px; /* רוחב קבוע לקונטיינר */
+            z-index: 1; /* כדי שהקונטיינר יהיה מתחת לתפריט האפליקציות אם הוא נפתח */
         }
 
         h1 {
@@ -76,17 +153,88 @@
     </style>
 </head>
 <body>
+    <div class="apps-menu">
+        <button class="apps-button">
+            <svg viewBox="0 0 24 24">
+                <circle cx="4" cy="4" r="2"></circle>
+                <circle cx="12" cy="4" r="2"></circle>
+                <circle cx="20" cy="4" r="2"></circle>
+                <circle cx="4" cy="12" r="2"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+                <circle cx="20" cy="12" r="2"></circle>
+                <circle cx="4" cy="20" r="2"></circle>
+                <circle cx="12" cy="20" r="2"></circle>
+                <circle cx="20" cy="20" r="2"></circle>
+            </svg>
+        </button>
+        <div class="apps-dropdown">
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 1</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 2</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 3</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 4</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 5</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 6</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 7</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 8</span>
+            </a>
+            <a href="https://example.com" class="app-icon">
+                <div></div>
+                <span>אתר 9</span>
+            </a>
+        </div>
+    </div>
+
     <div class="search-container">
         <h1>מנוע החיפוש של בית הספר קדם</h1>
         <form action="https://www.google.com/search" method="get" id="search-form">
             <input type="text" name="q" id="search-input" placeholder="הקלד את מילות החיפוש כאן...">
             <button type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.472 6.472 0 0 0 16 9.5A6.5 6.5 0 0 0 9.5 3A6.5 6.5 0 0 0 3 9.5A6.5 6.5 0 0 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 5l2-2l-5-5zm-6 0A4.5 4.5 0 0 1 5 9.5A4.5 4.5 0 0 1 9.5 5A4.5 4.5 0 0 1 14 9.5A4.5 4.5 0 0 1 9.5 14z"/>
+                    <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.472 6.472 0 0 0 16 9.5A6.5 6.5 0 0 0 9.5 3A6.5 6.5 0 0 0 3 9.5A6.5 6.5 0 0 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 5l2-2l-5-5zm-6 0A4.5 4.5 0 0 1 5 9.5A4.5 4.5 0 0 1 9.5 5A4.5 4.5 0 0 1 14 9.5A4.5 4.5 0 0 1 9.5 14z"></path>
                 </svg>
                 <span>חפש</span>
             </button>
         </form>
     </div>
+
+    <script>
+        const appsButton = document.querySelector('.apps-button');
+        const appsDropdown = document.querySelector('.apps-dropdown');
+        const appsMenu = document.querySelector('.apps-menu'); // תפסנו את הקונטיינר הראשי
+
+        appsButton.addEventListener('click', () => {
+            appsDropdown.classList.toggle('open');
+        });
+
+        // סגירת התפריט כאשר לוחצים מחוץ לו
+        document.addEventListener('click', (event) => {
+            if (!appsMenu.contains(event.target) && appsDropdown.classList.contains('open')) {
+                appsDropdown.classList.remove('open');
+            }
+        });
+    </script>
 </body>
 </html>
