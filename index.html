@@ -21,6 +21,25 @@
             color: white; /* צבע טקסט לבן לקריאות טובה יותר על רקע כהה */
         }
 
+        .top-link-container {
+            position: absolute;
+            top: 10px; /* מרחק מהקצה העליון */
+            left: 10px; /* מרחק מהקצה השמאלי */
+            z-index: 20; /* ודא שהקישור מעל אלמנטים אחרים */
+        }
+
+        .top-link {
+            color: white; /* או כל צבע אחר שמתאים לרקע שלך */
+            text-decoration: none; /* הסרת קו תחתון */
+            padding: 8px 12px; /* ריווח פנימי לקישור */
+            border-radius: 4px; /* פינות מעוגלות (אופציונלי) */
+            background-color: rgba(0, 0, 0, 0.3); /* רקע שקוף קלות (אופציונלי) */
+        }
+
+        .top-link:hover {
+            background-color: rgba(0, 0, 0, 0.5); /* שינוי רקע במעבר עכבר (אופציונלי) */
+        }
+
         .apps-menu {
             position: absolute;
             top: 10px;
@@ -96,7 +115,7 @@
         .logo-canva div {
             background-image: url('https://i.ibb.co/TBPn7jjH/image.png'); /* לוגו של Canva */
         }
-        
+
         .logo-gmail div {
             background-image: url('https://i.ibb.co/5WHRJXKq/image.png'); /* לוגו של Gmail */
         }
@@ -161,6 +180,10 @@
     </style>
 </head>
 <body>
+    <div class="top-link-container">
+        <a href="https://images.google.com/" class="top-link">Google</a>
+    </div>
+
     <div class="apps-menu">
         <button class="apps-button">
             <svg viewBox="0 0 24 24">
