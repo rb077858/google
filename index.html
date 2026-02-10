@@ -19,13 +19,9 @@
       background: white;
       padding: 30px;
       border-radius: 16px;
-      width: 320px;
+      width: 330px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
       text-align: center;
-    }
-
-    h1 {
-      margin-top: 0;
     }
 
     input {
@@ -47,113 +43,112 @@
       cursor: pointer;
     }
 
-    .google {
-      background: #4285F4;
-      color: white;
-    }
-
-    .email {
-      background: #667eea;
-      color: white;
-    }
-
-    .logout {
-      background: #e53e3e;
-      color: white;
-    }
+    .google { background: #4285F4; color: white; }
+    .email { background: #667eea; color: white; }
+    .anon { background: #38a169; color: white; }
+    .logout { background: #e53e3e; color: white; }
 
     #user {
       margin-top: 15px;
       font-weight: bold;
     }
 
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <h1>התחברות</h1>
+<div class="card">
+  <h2>התחברות</h2>
 
-    <input id="email" type="email" placeholder="אימייל">
-    <input id="password" type="password" placeholder="סיסמה">
+  <input id="email" type="email" placeholder="אימייל">
+  <input id="password" type="password" placeholder="סיסמה">
 
-    <button class="email" id="emailLogin">התחבר / הירשם עם אימייל</button>
+  <button class="email" id="emailLogin">התחבר / הירשם עם אימייל</button>
 
-    <hr>
+  <button class="google" id="googleLogin">התחבר עם Google</button>
 
-    <button class="google" id="googleLogin">התחבר עם Google</button>
+  <button class="anon" id="anonLogin">המשך כאורח</button>
 
-    <p id="user"></p>
-    <button class="logout hidden" id="logout">התנתק</button>
-  </div>
+  <p id="user"></p>
+  <button class="logout hidden" id="logout">התנתק</button>
+</div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    signInAnonymously,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBIAWpy11d7E6oNx_aOwp1PVyX7JE__7cY",
-      authDomain: "fir-ee231.firebaseapp.com",
-      projectId: "fir-ee231",
-      storageBucket: "fir-ee231.firebasestorage.app",
-      messagingSenderId: "286556534717",
-      appId: "1:286556534717:web:75a6b9272a70e5252204d4"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyBIAWpy11d7E6oNx_aOwp1PVyX7JE__7cY",
+    authDomain: "fir-ee231.firebaseapp.com",
+    projectId: "fir-ee231",
+    storageBucket: "fir-ee231.firebasestorage.app",
+    messagingSenderId: "286556534717",
+    appId: "1:286556534717:web:75a6b9272a70e5252204d4"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
 
-    const userText = document.getElementById("user");
-    const logoutBtn = document.getElementById("logout");
+  const userText = document.getElementById("user");
+  const logoutBtn = document.getElementById("logout");
 
-    // Google login
-    document.getElementById("googleLogin").onclick = async () => {
-      const result = await signInWithPopup(auth, provider);
+  // Google
+  document.getElementById("googleLogin").onclick = async () => {
+    const result = await signInWithPopup(auth, provider);
+    showUser(result.user);
+  };
+
+  // Email
+  document.getElementById("emailLogin").onclick = async () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
       showUser(result.user);
-    };
-
-    // Email login / register
-    document.getElementById("emailLogin").onclick = async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      try {
-        const result = await signInWithEmailAndPassword(auth, email, password);
-        showUser(result.user);
-      } catch {
-        const result = await createUserWithEmailAndPassword(auth, email, password);
-        showUser(result.user);
-      }
-    };
-
-    // Logout
-    logoutBtn.onclick = async () => {
-      await signOut(auth);
-      userText.innerText = "";
-      logoutBtn.classList.add("hidden");
-    };
-
-    function showUser(user) {
-      userText.innerText = "שלום " + (user.displayName || user.email);
-      logoutBtn.classList.remove("hidden");
+    } catch {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      showUser(result.user);
     }
+  };
 
-    onAuthStateChanged(auth, user => {
-      if (user) showUser(user);
-    });
-  </script>
+  // Anonymous
+  document.getElementById("anonLogin").onclick = async () => {
+    const result = await signInAnonymously(auth);
+    showUser(result.user);
+  };
+
+  // Logout
+  logoutBtn.onclick = async () => {
+    await signOut(auth);
+    userText.innerText = "";
+    logoutBtn.classList.add("hidden");
+  };
+
+  function showUser(user) {
+    if (user.isAnonymous) {
+      userText.innerText = "שלום אורח 👤";
+    } else {
+      userText.innerText = "שלום " + (user.displayName || user.email);
+    }
+    logoutBtn.classList.remove("hidden");
+  }
+
+  onAuthStateChanged(auth, user => {
+    if (user) showUser(user);
+  });
+</script>
 
 </body>
 </html>
