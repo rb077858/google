@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <title>התחברות עם גוגל</title>
+</head>
+<body>
+  <button id="login">התחבר עם Google</button>
+  <h2 id="user"></h2>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    const firebaseConfig = {
+    apiKey: "AIzaSyBIAWpy11d7E6oNx_aOwp1PVyX7JE__7cY",
+    authDomain: "fir-ee231.firebaseapp.com",
+    projectId: "fir-ee231",
+    storageBucket: "fir-ee231.firebasestorage.app",
+    messagingSenderId: "286556534717",
+    appId: "1:286556534717:web:75a6b9272a70e5252204d4",
+    measurementId: "G-570EH9E0ED"
+  };
+
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    document.getElementById("login").onclick = async () => {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      document.getElementById("user").innerText = "שלום " + user.displayName;
+    };
+  </script>
+</body>
+</html>
