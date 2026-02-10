@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>התחברות</title>
+
+  <!-- reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -19,7 +23,7 @@
       background: white;
       padding: 30px;
       border-radius: 16px;
-      width: 330px;
+      width: 340px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
       text-align: center;
     }
@@ -48,11 +52,7 @@
     .anon { background: #38a169; color: white; }
     .logout { background: #e53e3e; color: white; }
 
-    #user {
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
+    #user { margin-top: 15px; font-weight: bold; }
     .hidden { display: none; }
   </style>
 </head>
@@ -64,10 +64,14 @@
   <input id="email" type="email" placeholder="אימייל">
   <input id="password" type="password" placeholder="סיסמה">
 
+  <!-- reCAPTCHA -->
+  <div
+    class="g-recaptcha"
+    data-sitekey="6LdGHqcrAAAAALe9MHDqXwGHkdkr1UWWArLYL1fv">
+  </div>
+
   <button class="email" id="emailLogin">התחבר / הירשם עם אימייל</button>
-
   <button class="google" id="googleLogin">התחבר עם Google</button>
-
   <button class="anon" id="anonLogin">המשך כאורח</button>
 
   <p id="user"></p>
@@ -103,14 +107,25 @@
   const userText = document.getElementById("user");
   const logoutBtn = document.getElementById("logout");
 
-  // Google
-  document.getElementById("googleLogin").onclick = async () => {
+  function checkCaptcha() {
+    const token = grecaptcha.getResponse();
+    if (!token) {
+      alert("נא לאשר שאתה לא רובוט 🤖");
+      return false;
+    }
+    return true;
+  }
+
+  // Google (לא צריך captcha)
+  googleLogin.onclick = async () => {
     const result = await signInWithPopup(auth, provider);
     showUser(result.user);
   };
 
-  // Email
-  document.getElementById("emailLogin").onclick = async () => {
+  // Email (עם captcha)
+  emailLogin.onclick = async () => {
+    if (!checkCaptcha()) return;
+
     const email = emailInput.value;
     const password = passwordInput.value;
 
@@ -121,15 +136,20 @@
       const result = await createUserWithEmailAndPassword(auth, email, password);
       showUser(result.user);
     }
+
+    grecaptcha.reset();
   };
 
-  // Anonymous
-  document.getElementById("anonLogin").onclick = async () => {
+  // Anonymous (עם captcha)
+  anonLogin.onclick = async () => {
+    if (!checkCaptcha()) return;
+
     const result = await signInAnonymously(auth);
     showUser(result.user);
+
+    grecaptcha.reset();
   };
 
-  // Logout
   logoutBtn.onclick = async () => {
     await signOut(auth);
     userText.innerText = "";
